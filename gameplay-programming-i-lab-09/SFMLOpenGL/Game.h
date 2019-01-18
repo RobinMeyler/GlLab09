@@ -24,7 +24,7 @@ private:
 	void update();
 	void render();
 	void unload();
-
+	void setupPoints();
 	Clock clock;
 	Time elapsed;
 
