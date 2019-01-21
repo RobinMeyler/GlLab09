@@ -93,10 +93,10 @@ void Game::update()
 	{
 		for (int i = 0; i < 36; i++)
 		{
-			MyVector3 tempVec = { vertex[i].coordinate[0], vertex[i].coordinate[1],  vertex[i].coordinate[2] };
+			MyVector3 tempVec = { vertex[i].coordinate[0], vertex[i].coordinate[1],  vertex[i].coordinate[2] };// Temp vector to use matrix
 			tempVec = (MyMatrix3::rotationZ(0.004) * tempVec);
 
-			vertex[i].coordinate[0] = tempVec.x;
+			vertex[i].coordinate[0] = tempVec.x;		// Reassign to vertices
 			vertex[i].coordinate[1] = tempVec.y;
 			vertex[i].coordinate[2] = tempVec.z;
 		}
@@ -105,10 +105,10 @@ void Game::update()
 	{
 		for (int i = 0; i < 36; i++)
 		{
-			MyVector3 tempVec = { vertex[i].coordinate[0], vertex[i].coordinate[1],  vertex[i].coordinate[2] };
+			MyVector3 tempVec = { vertex[i].coordinate[0], vertex[i].coordinate[1],  vertex[i].coordinate[2] };// Temp vector to use matrix
 			tempVec = (MyMatrix3::rotationX(0.004) * tempVec);
 
-			vertex[i].coordinate[0] = tempVec.x;
+			vertex[i].coordinate[0] = tempVec.x;		// Reassign to vertices
 			vertex[i].coordinate[1] = tempVec.y;
 			vertex[i].coordinate[2] = tempVec.z;
 		}
@@ -117,10 +117,10 @@ void Game::update()
 	{
 		for (int i = 0; i < 36; i++)
 		{
-			MyVector3 tempVec = { vertex[i].coordinate[0], vertex[i].coordinate[1],  vertex[i].coordinate[2] };
+			MyVector3 tempVec = { vertex[i].coordinate[0], vertex[i].coordinate[1],  vertex[i].coordinate[2] };// Temp vector to use matrix
 			tempVec = (MyMatrix3::rotationY(0.004) * tempVec);
 
-			vertex[i].coordinate[0] = tempVec.x;
+			vertex[i].coordinate[0] = tempVec.x;	// Reassign to vertices
 			vertex[i].coordinate[1] = tempVec.y;
 			vertex[i].coordinate[2] = tempVec.z;
 		}
@@ -130,10 +130,10 @@ void Game::update()
 	{
 		for (int i = 0; i < 36; i++)
 		{
-			MyVector3 tempVec = { vertex[i].coordinate[0], vertex[i].coordinate[1],  vertex[i].coordinate[2] };
+			MyVector3 tempVec = { vertex[i].coordinate[0], vertex[i].coordinate[1],  vertex[i].coordinate[2] };	// Temp vector to use matrix
 			tempVec = (MyMatrix3::scale(0.998) * tempVec);
 
-			vertex[i].coordinate[0] = tempVec.x;
+			vertex[i].coordinate[0] = tempVec.x;		// Reassign to vertices
 			vertex[i].coordinate[1] = tempVec.y;
 			vertex[i].coordinate[2] = tempVec.z;
 		}
@@ -142,49 +142,36 @@ void Game::update()
 	{
 		for (int i = 0; i < 36; i++)
 		{
-			MyVector3 tempVec = { vertex[i].coordinate[0], vertex[i].coordinate[1], vertex[i].coordinate[2] };
+			MyVector3 tempVec = { vertex[i].coordinate[0], vertex[i].coordinate[1], vertex[i].coordinate[2] };			// Temp vector to use matrix
 			tempVec = (MyMatrix3::scale(1.002) * tempVec);
 
-			vertex[i].coordinate[0] = tempVec.x;
+			vertex[i].coordinate[0] = tempVec.x;		// Reassign to vertices
 			vertex[i].coordinate[1] = tempVec.y;
 			vertex[i].coordinate[2] = tempVec.z;
-
 		}
 	}
 	// Translate
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-		if (trans.z >= 0)
-		{
-			trans = (MyMatrix3::translation(MyVector3{ 0, 0.001 ,0 }) *  trans);			// Rotate them all
-		}
+		trans = (MyMatrix3::translation(MyVector3{ 0, 0.001 ,0 }) *  trans);	
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
-		if (trans.z >= 0)
-		{
-			trans = (MyMatrix3::translation(MyVector3{ 0, -0.001 ,0 }) *  trans);
-		}
+		trans = (MyMatrix3::translation(MyVector3{ 0, -0.001 ,0 }) *  trans);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		if (trans.z >= 0)
-		{
-			trans = (MyMatrix3::translation(MyVector3{0.001, 0 ,0 }) *  trans);
-		}
+		trans = (MyMatrix3::translation(MyVector3{0.001, 0 ,0 }) *  trans);	
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		if (trans.z >= 0)
-		{
-			trans = (MyMatrix3::translation(MyVector3{ -0.001, 0 ,0 }) *  trans);
-		}
+		trans = (MyMatrix3::translation(MyVector3{ -0.001, 0 ,0 }) *  trans);
 	}
 	// Update the overall translation
 	for (int i = 0; i < 36; i++)
 	{
-		finalVertex[i] = vertex[i];
-		finalVertex[i].coordinate[0] += trans.x;
+		finalVertex[i] = vertex[i];			// Give color and rotate/scale
+		finalVertex[i].coordinate[0] += trans.x;	// Add XnY of translation
 		finalVertex[i].coordinate[1] += trans.y;
 	}
 }
@@ -205,10 +192,8 @@ void Game::render()
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
-	glLoadIdentity();
-	glTranslatef(0, 0, 0);
 
-	glColorPointer(3, GL_FLOAT, sizeof(Vert), (char*)NULL + 12);
+	glColorPointer(3, GL_FLOAT, sizeof(Vert), (char*)NULL + 36);
 
 	/*	Draw Triangle from VBO	(set where to start from as VBO can contain
 		model compoents that are and are not to be drawn )	*/
@@ -219,7 +204,6 @@ void Game::render()
 	glDisableClientState(GL_COLOR_ARRAY);
 
 	window.display();
-
 }
 
 void Game::unload()
@@ -257,7 +241,7 @@ void Game::setupPoints()
 	vertex[5].coordinate[1] = 0.5;
 	vertex[5].coordinate[2] = -0.5;
 
-	// added side 1
+	// side 1
 	vertex[6].coordinate[0] = 0.5;
 	vertex[6].coordinate[1] = 0.5;
 	vertex[6].coordinate[2] = -0.5;
@@ -383,155 +367,3 @@ void Game::setupPoints()
 	vertex[35].coordinate[2] = -0.5;
 }
 
-//vertex[0].color[0] = 0.1f;
-//vertex[0].color[1] = 1.0f;
-//vertex[0].color[2] = 0.0f;
-
-//vertex[1].color[0] = 0.2f;
-//vertex[1].color[1] = 1.0f;
-//vertex[1].color[2] = 0.0f;
-
-//vertex[2].color[0] = 0.3f;
-//vertex[2].color[1] = 1.0f;
-//vertex[2].color[2] = 0.0f;
-
-//vertex[3].color[0] = 0.4f;
-//vertex[3].color[1] = 1.0f;
-//vertex[3].color[2] = 0.0f;
-
-//vertex[4].color[0] = 0.5f;
-//vertex[4].color[1] = 1.0f;
-//vertex[4].color[2] = 0.0f;
-
-//vertex[5].color[0] = 0.6f;
-//vertex[5].color[1] = 1.0f;
-//vertex[5].color[2] = 0.0f;
-
-//// added
-//vertex[6].color[0] = 0.6f;
-//vertex[6].color[1] = 0.6f;
-//vertex[6].color[2] = 1.0f;
-
-//vertex[7].color[0] = 0.6f;
-//vertex[7].color[1] = 0.6f;
-//vertex[7].color[2] = 1.0f;
-
-//vertex[8].color[0] = 0.6f;
-//vertex[8].color[1] = 0.6f;
-//vertex[8].color[2] = 1.0f;
-
-//vertex[9].color[0] = 1.0f;
-//vertex[9].color[1] = 0.6f;
-//vertex[9].color[2] = 0.6f;
-
-//vertex[10].color[0] = 1.0f;
-//vertex[10].color[1] = 0.6f;
-//vertex[10].color[2] = 0.6f;
-
-//vertex[11].color[0] = 1.0f;
-//vertex[11].color[1] = 0.6f;
-//vertex[11].color[2] = 0.6f;
-
-//// moar
-
-//vertex[12].color[0] = 1.0f;
-//vertex[12].color[1] = 1.0f;
-//vertex[12].color[2] = 0.0f;
-
-//vertex[13].color[0] = 1.0f;
-//vertex[13].color[1] = 1.0f;
-//vertex[13].color[2] = 0.0f;
-
-//vertex[14].color[0] = 1.0f;
-//vertex[14].color[1] = 1.0f;
-//vertex[14].color[2] = 0.0f;
-
-//vertex[15].color[0] = 0.0f;
-//vertex[15].color[1] = 1.0f;
-//vertex[15].color[2] = 1.0f;
-
-//vertex[16].color[0] = 0.0f;
-//vertex[16].color[1] = 1.0f;
-//vertex[16].color[2] = 1.0f;
-
-//vertex[17].color[0] = 0.0f;
-//vertex[17].color[1] = 1.0f;
-//vertex[17].color[2] = 1.0f;
-
-//// moar
-
-//vertex[18].color[0] = 1.0f;
-//vertex[18].color[1] = 0.0f;
-//vertex[18].color[2] = 0.0f;
-
-//vertex[19].color[0] = 1.0f;
-//vertex[19].color[1] = 0.0f;
-//vertex[19].color[2] = 0.0f;
-
-//vertex[20].color[0] = 1.0f;
-//vertex[20].color[1] = 0.0f;
-//vertex[20].color[2] = 0.0f;
-
-//vertex[21].color[0] = 0.0f;
-//vertex[21].color[1] = 0.0f;
-//vertex[21].color[2] = 1.0f;
-
-//vertex[22].color[0] = 0.0f;
-//vertex[22].color[1] = 0.0f;
-//vertex[22].color[2] = 1.0f;
-
-//vertex[23].color[0] = 0.0f;
-//vertex[23].color[1] = 0.0f;
-//vertex[23].color[2] = 1.0f;
-
-//// moar
-
-//vertex[24].color[0] = 1.0f;
-//vertex[24].color[1] = 0.0f;
-//vertex[24].color[2] = 1.0f;
-
-//vertex[25].color[0] = 1.0f;
-//vertex[25].color[1] = 0.0f;
-//vertex[25].color[2] = 1.0f;
-
-//vertex[26].color[0] = 1.0f;
-//vertex[26].color[1] = 0.0f;
-//vertex[26].color[2] = 1.0f;
-
-//vertex[27].color[0] = 0.6f;
-//vertex[27].color[1] = 1.0f;
-//vertex[27].color[2] = 0.6f;
-
-//vertex[28].color[0] = 0.6f;
-//vertex[28].color[1] = 1.0f;
-//vertex[28].color[2] = 0.6f;
-
-//vertex[29].color[0] = 0.6f;
-//vertex[29].color[1] = 1.0f;
-//vertex[29].color[2] = 0.6f;
-
-//// moar
-
-//vertex[30].color[0] = 0.7f;
-//vertex[30].color[1] = 0.0f;
-//vertex[30].color[2] = 0.3f;
-
-//vertex[31].color[0] = 0.7f;
-//vertex[31].color[1] = 0.0f;
-//vertex[31].color[2] = 0.3f;
-
-//vertex[32].color[0] = 0.7f;
-//vertex[32].color[1] = 0.0f;
-//vertex[32].color[2] = 0.3f;
-
-//vertex[33].color[0] = 0.3f;
-//vertex[33].color[1] = 0.0f;
-//vertex[33].color[2] = 0.7f;
-
-//vertex[34].color[0] = 0.3f;
-//vertex[34].color[1] = 0.0f;
-//vertex[34].color[2] = 0.7f;
-
-//vertex[35].color[0] = 0.3f;
-//vertex[35].color[1] = 0.0f;
-//vertex[35].color[2] = 0.7f;
